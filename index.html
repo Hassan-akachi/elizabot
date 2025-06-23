@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Task 4.3 – ELIZA Chatbot</title>
+  <script src="elizadata.js"></script>
+  <script src="elizabot.js"></script>
+  <style>
+    body { font-family: Arial; padding: 20px; background: #f2f2f2; }
+    #chatbox {
+      background: #fff; border: 1px solid #ccc; height: 300px;
+      overflow-y: auto; padding: 10px; margin-bottom: 10px;
+    }
+    .user { color: green; }
+    .eliza { color: blue; }
+    input { width: 70%; padding: 8px; }
+    button { padding: 8px 12px; }
+  </style>
+</head>
+<body>
+
+<h2>Task 4.3 – ELIZA Chatbot (English + Yorùbá)</h2>
+
+<label for="language">Choose Language:</label>
+<select id="language">
+  <option value="english">English</option>
+  <option value="yoruba">Yorùbá</option>
+</select>
+
+<div id="chatbox"></div>
+
+<input type="text" id="inputText" placeholder="Ask Eliza a question...">
+<button onclick="sendInput()">Send</button>
+
+<script>
+  const chatbox = document.getElementById("chatbox");
+  const eliza = new Eliza();
+  const inputField = document.getElementById("inputText");
+
+  function sendInput() {
+    const userText = inputField.value.trim();
+    if (!userText) return;
+
+    const lang = document.getElementById("language").value;
+    eliza.setLanguage(lang);
+
+    const elizaReply = eliza.transform(userText);
+
+    chatbox.innerHTML += `<p class="user"><strong>You:</strong> ${userText}</p>`;
+    chatbox.innerHTML += `<p class="eliza"><strong>Eliza:</strong> ${elizaReply}</p>`;
+    chatbox.scrollTop = chatbox.scrollHeight;
+    inputField.value = "";
+  }
+
+  inputField.addEventListener("keypress", function(e) {
+    if (e.key === "Enter") sendInput();
+  });
+</script>
+
+</body>
+</html>
